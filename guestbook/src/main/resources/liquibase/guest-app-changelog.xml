@@ -1,0 +1,78 @@
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+   http://www.liquibase.org/xml/ns/dbchangelog 
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="Nilesh" id="guesybook-app-initial-schema">
+        <createTable tableName="guestbook_user">
+        	<column name="id" type="BIGINT" autoIncrement="true">
+        		<constraints primaryKey="true" primaryKeyName="pk_gstbk_usr" />
+        	</column>
+        	<column name="name" type="VARCHAR(255)">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="email" type="VARCHAR(255)">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="type" type="VARCHAR(50)">
+        		<constraints nullable="false"/>
+        	</column>
+        </createTable>
+        
+        <createTable tableName="user_credential">
+        	<column name="id" type="BIGINT" autoIncrement="true">
+        		<constraints primaryKey="true" primaryKeyName="pk_usr_crdntl"/>
+        	</column>
+        	<column name="user_id" type="BIGINT">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="login_id" type="VARCHAR(255)">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="password" type="VARCHAR(512)">
+        		<constraints nullable="false"/>
+        	</column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_usr_crdntl_usr_id" referencedTableName="guestbook_user" baseColumnNames="user_id" baseTableName="user_credential" referencedColumnNames="id"/>
+        
+        <createTable tableName="book_entry">
+        	<column name="id" type="BIGINT" autoIncrement="true">
+        		<constraints primaryKey="true" primaryKeyName="pk_book_entry"/>
+        	</column>
+        	<column name="entry_text" type="TEXT">
+        		<constraints nullable="true"/>
+        	</column>
+        	<column name="entry_img" type="BLOB">
+        		<constraints nullable="true"/>
+        	</column>
+        	<column name="created_by" type="BIGINT">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="created_at" type="TIMESTAMP">
+        		<constraints nullable="false"/>
+        	</column>
+        	<column name="updated_at" type="TIMESTAMP">
+        		<constraints nullable="true"/>
+        	</column>
+        	<column name="approved_by" type="BIGINT">
+        		<constraints nullable="true"/>
+        	</column>
+        	<column name="approved_at" type="TIMESTAMP">
+        		<constraints nullable="true"/>
+        	</column>
+        	<column name="approver_action" type="VARCHAR(50)">
+        		<constraints nullable="true"/>
+        	</column>
+        	<column name="status" type="VARCHAR(20)">
+        		<constraints nullable="false"/>
+        	</column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_entry_creator" referencedTableName="guestbook_user" baseColumnNames="created_by" baseTableName="book_entry" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_entry_aprvr" referencedTableName="guestbook_user" baseColumnNames="approved_by" baseTableName="book_entry" referencedColumnNames="id"/>
+    </changeSet>
+    
+</databaseChangeLog>

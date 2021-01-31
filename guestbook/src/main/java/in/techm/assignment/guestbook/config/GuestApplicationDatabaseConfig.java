@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import in.techm.assignment.guestbook.dao.GuestBookDao;
 import liquibase.integration.spring.SpringLiquibase;
 
 /**
@@ -54,6 +56,14 @@ public class GuestApplicationDatabaseConfig {
 		guestAppLiquibase.setChangeLog("classpath:liquibase/guest-app-changelog.xml");
 		guestAppLiquibase.setDataSource(guestAppDatasource);
 		return guestAppLiquibase;
+	}
+	
+	@Bean("guestBookDao")
+	@DependsOn("guestAppJdbcTemplate")
+	public GuestBookDao guestBookDao(@Qualifier("guestAppJdbcTemplate") JdbcTemplate guestAppJdbcTemplate) {
+		GuestBookDao guestBookDao = new GuestBookDao();
+		guestBookDao.setJdbcTemplate(guestAppJdbcTemplate);
+		return guestBookDao;
 	}
 
 }
