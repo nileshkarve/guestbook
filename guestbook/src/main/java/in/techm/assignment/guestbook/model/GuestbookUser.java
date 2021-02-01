@@ -22,6 +22,8 @@ public class GuestbookUser implements Serializable {
 	private String name;
 	private String email;
 	private GuestbookUserType type;
+	
+	private UserCredential credential;
 
 	public String getEmail() {
 		return email;
@@ -55,11 +57,19 @@ public class GuestbookUser implements Serializable {
 		this.type = type;
 	}
 
+	public UserCredential getCredential() {
+		return credential;
+	}
+
+	public void setCredential(UserCredential credential) {
+		this.credential = credential;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("GuestbookUser [id=").append(id).append(", name=").append(name).append(", email=").append(email)
-				.append(", type=").append(type).append("]");
+				.append(", type=").append(type).append(", credential=").append(credential).append("]");
 		return builder.toString();
 	}
 

@@ -24,12 +24,12 @@ public class BookEntry implements Serializable {
 	private String text;
 	private byte[] image;
 	private Long createdBy;
-	private Date createdAt;
+	private Date createdAt = new Date();
 	private Long approvedBy;
 	private Date approvedAt;
 	private Date updatedAt;
 	private APPROVER_ACTION approverAction;
-	private EntryStatus status;
+	private EntryStatus status = EntryStatus.NEW;
 	private GuestbookUser createdByUser;
 	private GuestbookUser approvedByUser;
 	

@@ -28,7 +28,7 @@ public class BookEntryMapper implements RowMapper<BookEntry> {
 		entry.setImage(rs.getBytes("image"));
 		entry.setApprovedAt(rs.getDate("approvedAt"));
 		entry.setApprovedBy(rs.getLong("approvedBy"));
-		entry.setApproverAction(APPROVER_ACTION.valueOf(rs.getString("approverAction")));
+		entry.setApproverAction(null != rs.getString("approverAction") ? APPROVER_ACTION.valueOf(rs.getString("approverAction")) : null);
 		entry.setCreatedAt(rs.getDate("createdAt"));
 		entry.setCreatedBy(rs.getLong("createdBy"));
 		entry.setStatus(EntryStatus.valueOf(rs.getString("status")));

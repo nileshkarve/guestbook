@@ -15,6 +15,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import in.techm.assignment.guestbook.dao.GuestBookDao;
+import in.techm.assignment.guestbook.security.dao.UserDao;
 import liquibase.integration.spring.SpringLiquibase;
 
 /**
@@ -65,5 +66,12 @@ public class GuestApplicationDatabaseConfig {
 		guestBookDao.setJdbcTemplate(guestAppJdbcTemplate);
 		return guestBookDao;
 	}
-
+	
+	@Bean("userDao")
+	@DependsOn("guestAppJdbcTemplate")
+	public UserDao userDao(@Qualifier("guestAppJdbcTemplate") JdbcTemplate guestAppJdbcTemplate) {
+		UserDao userDao = new UserDao();
+		userDao.setGuestAppJdbcTemplate(guestAppJdbcTemplate);
+		return userDao;
+	}
 }

@@ -3,6 +3,7 @@
  */
 package in.techm.assignment.guestbook.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.techm.assignment.guestbook.manager.GuestBookManager;
 import in.techm.assignment.guestbook.model.BookEntry;
+import in.techm.assignment.guestbook.model.utils.APPROVER_ACTION;
+import in.techm.assignment.guestbook.model.utils.EntryStatus;
 
 /**
  * @author Nilesh
  *
  */
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 public class GuestbookController {
 	
@@ -44,11 +47,25 @@ public class GuestbookController {
 		LOG.info("Book entry added successfully.");
 	}
 	
-	@DeleteMapping(name = "/deleteEntry", path = "/{id}")
-	public void deleteEntry(@PathVariable("id") Long id) {
-		LOG.info("Deleting book entry with id : {}", id);
-		guestBookManager.deleteEntry(id);
-		LOG.info("Deleted book entry with id {}", id);
+	@PostMapping("/deleteEntry")
+	public void deleteEntry(@RequestBody BookEntry entry) {
+		LOG.info("Deleting book entry with id : {}", entry.getId());
+		guestBookManager.deleteEntry(entry.getId());
+		LOG.info("Deleted book entry with id {}", entry.getId());
+	}
+	
+//	@PutMapping(name = "/approveEntry", path = {"/{id}/{approverId}"})
+//	public void approveEntry(@PathVariable("id") Long id, @PathVariable("approverId") Long approverId) {
+//		LOG.info("Approving book entry with id : {}", id);
+//		guestBookManager.updateEntry(id, approverId, new Date(), APPROVER_ACTION.APPROVE, EntryStatus.APPROVED);
+//		LOG.info("Aproved book entry with id {}", id);
+//	}
+	
+	@PostMapping("/approveEntry")
+	public void approveEntry(@RequestBody BookEntry entry) {
+		LOG.info("Approving book entry with id : {}", entry.getId());
+		guestBookManager.updateEntry(entry.getId(), entry.getApprovedBy(), new Date(), APPROVER_ACTION.APPROVE, EntryStatus.APPROVED);
+		LOG.info("Aproved book entry with id {}", entry.getId());
 	}
 
 	public void setGuestBookManager(GuestBookManager guestBookManager) {

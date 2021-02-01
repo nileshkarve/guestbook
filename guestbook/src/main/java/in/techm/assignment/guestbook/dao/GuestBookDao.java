@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import in.techm.assignment.guestbook.dao.mapper.BookEntryMapper;
 import in.techm.assignment.guestbook.model.BookEntry;
+import in.techm.assignment.guestbook.model.utils.APPROVER_ACTION;
 import in.techm.assignment.guestbook.model.utils.EntryStatus;
 
 /**
@@ -53,7 +54,7 @@ public class GuestBookDao {
 
 	public void addEntry(BookEntry entry) {
 		String query = "INSERT INTO book_entry(entry_text, entry_img, created_by, created_at, status)VALUES(?,?,?,?,?)";
-		Object[] args = {entry.getText(), entry.getImage(), entry.getCreatedBy(), new Date(), EntryStatus.NEW};
+		Object[] args = {entry.getText(), entry.getImage(), entry.getCreatedBy(), new Date(), EntryStatus.NEW.name()};
 		jdbcTemplate.update(query, args);
 	}
 
@@ -63,9 +64,10 @@ public class GuestBookDao {
 		jdbcTemplate.update(query, args);
 	}
 
-	public void updateEntry(BookEntry entry) {
-		// TODO Auto-generated method stub
-		
+	public void updateEntry(Long id, Long approverId, Date approvedAt, APPROVER_ACTION action, EntryStatus status) {
+		String query = "UPDATE book_entry SET approved_by = ?, approved_at = ?, approver_action = ?, status = ? WHERE id = ?";
+		Object[] args = {approverId, approvedAt, action.name(), status.name(), id};
+		jdbcTemplate.update(query, args);
 	}
 
 }

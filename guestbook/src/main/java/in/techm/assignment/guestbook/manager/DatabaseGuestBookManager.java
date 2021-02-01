@@ -3,6 +3,7 @@
  */
 package in.techm.assignment.guestbook.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import in.techm.assignment.guestbook.dao.GuestBookDao;
 import in.techm.assignment.guestbook.model.BookEntry;
+import in.techm.assignment.guestbook.model.utils.APPROVER_ACTION;
+import in.techm.assignment.guestbook.model.utils.EntryStatus;
 
 /**
  * @author Nilesh
@@ -37,12 +40,11 @@ public class DatabaseGuestBookManager implements GuestBookManager {
 	}
 
 	@Override
-	public void updateEntry(BookEntry entry) {
-		guestBookDao.updateEntry(entry);
+	public void updateEntry(Long id, Long approverId, Date approvedAt, APPROVER_ACTION action, EntryStatus status) {
+		guestBookDao.updateEntry(id, approverId, approvedAt, action, status);
 	}
 
 	public void setGuestBookDao(GuestBookDao guestBookDao) {
 		this.guestBookDao = guestBookDao;
 	}
-
 }
