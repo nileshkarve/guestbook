@@ -75,4 +75,16 @@
         <addForeignKeyConstraint constraintName="fk_entry_aprvr" referencedTableName="guestbook_user" baseColumnNames="approved_by" baseTableName="book_entry" referencedColumnNames="id"/>
     </changeSet>
     
+    <changeSet id="sample-data-insertion" author="Nilesh">
+		<sql>
+			INSERT INTO guestbook_user(id,name,email,type)VALUES(1000,'Admin','admin@guestbook.com','ADMIN');
+			INSERT INTO guestbook_user(id,name,email,type)VALUES(1001,'User1','user1@guestbook.com','GUEST');
+			INSERT INTO guestbook_user(id,name,email,type)VALUES(1002,'User2','user2@guestbook.com','GUEST');
+			
+			INSERT INTO user_credential(user_id,login_id,password)VALUES(1000,'admin','$2a$10$iwjlN4pQy6O8gC.X6SUWf.oUuJcnMQeFqKqdhUOpv5yxwQCh7wI1G');
+			INSERT INTO user_credential(user_id,login_id,password)VALUES(1001,'user1','$2a$10$iwjlN4pQy6O8gC.X6SUWf.oUuJcnMQeFqKqdhUOpv5yxwQCh7wI1G');
+			INSERT INTO user_credential(user_id,login_id,password)VALUES(1002,'user2','$2a$10$iwjlN4pQy6O8gC.X6SUWf.oUuJcnMQeFqKqdhUOpv5yxwQCh7wI1G');
+		</sql>
+    </changeSet>
+    
 </databaseChangeLog>
